@@ -3,31 +3,32 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Kalkulator Upgrade KWH PLN - Multi Perangkat</title>
-    <!-- Tailwind CSS CDN -->
+    <title>Kalkulator Upgrade KWH PLN - Komparasi Daya Eksisting</title>
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
 </head>
 <body class="bg-slate-50 text-slate-800 font-sans antialiased min-h-screen py-10 px-4">
 
     <div class="max-w-6xl mx-auto bg-white rounded-2xl shadow-xl overflow-hidden border border-slate-100">
-        <!-- Header -->
         <div class="bg-gradient-to-r from-blue-600 to-indigo-700 p-6 md:p-8 text-white">
             <h1 class="text-2xl md:text-3xl font-bold tracking-tight">Kalkulator Upgrade Kapasitas KWH PLN</h1>
-            <p class="text-blue-100 mt-2 text-sm md:text-base">Perhitungan daya listrik AC PLN berdasarkan rincian data inventaris beban perangkat DC dan AC secara terintegrasi.</p>
+            <p class="text-blue-100 mt-2 text-sm md:text-base">Analisis kebutuhan penambahan daya listrik PLN dengan membandingkan kapasitas eksisting terhadap total beban AC & DC.</p>
         </div>
 
         <div class="p-6 md:p-8 grid grid-cols-1 lg:grid-cols-3 gap-8">
             
-            <!-- SISI INPUT (2 Kolom pada Layar Besar) -->
             <div class="lg:col-span-2 space-y-8">
                 
-                <!-- 1. Parameter Utama Sistem -->
                 <div class="bg-slate-50 p-5 rounded-xl border border-slate-200">
                     <h2 class="text-lg font-bold text-slate-700 mb-4 flex items-center gap-2">
                         <span class="bg-blue-600 text-white w-6 h-6 rounded-full inline-flex items-center justify-center text-xs">1</span>
-                        Parameter Utama & Rectifier
+                        Parameter Utama & Daya Eksisting
                     </h2>
                     <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                        <div>
+                            <label class="block text-xs font-semibold text-slate-600 mb-1">Daya PLN Eksisting Saat Ini</label>
+                            <select id="daya_eksisting" onchange="hitungKapasitas()" class="w-full px-3 py-2 bg-white border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 text-sm focus:outline-none font-medium">
+                                </select>
+                        </div>
                         <div>
                             <label class="block text-xs font-semibold text-slate-600 mb-1">Tegangan Sistem DC (V)</label>
                             <input type="number" id="v_dc" value="48" oninput="hitungKapasitas()" class="w-full px-3 py-2 bg-white border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 text-sm focus:outline-none">
@@ -36,24 +37,23 @@
                             <label class="block text-xs font-semibold text-slate-600 mb-1">Kapasitas Rectifier (A)</label>
                             <input type="number" id="i_rect" value="100" oninput="hitungKapasitas()" class="w-full px-3 py-2 bg-white border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 text-sm focus:outline-none">
                         </div>
+                    </div>
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mt-3">
                         <div>
                             <label class="block text-xs font-semibold text-slate-600 mb-1">Safety Margin PLN (%)</label>
                             <input type="number" id="safety" value="20" oninput="hitungKapasitas()" class="w-full px-3 py-2 bg-white border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 text-sm focus:outline-none">
                         </div>
-                    </div>
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mt-3">
                         <div>
                             <label class="block text-xs font-semibold text-slate-600 mb-1">Efisiensi Rectifier (%)</label>
                             <input type="number" id="eff" value="92" oninput="hitungKapasitas()" class="w-full px-3 py-2 bg-white border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 text-sm focus:outline-none">
                         </div>
                         <div>
-                            <label class="block text-xs font-semibold text-slate-600 mb-1">Power Factor Rectifier (Cos &phi;)</label>
+                            <label class="block text-xs font-semibold text-slate-600 mb-1">Power Factor (Cos &phi;)</label>
                             <input type="number" id="pf_rect" value="0.95" step="0.01" max="1" oninput="hitungKapasitas()" class="w-full px-3 py-2 bg-white border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 text-sm focus:outline-none">
                         </div>
                     </div>
                 </div>
 
-                <!-- 2. Beban Perangkat DC -->
                 <div>
                     <div class="flex justify-between items-center mb-3">
                         <h2 class="text-lg font-bold text-slate-700 flex items-center gap-2">
@@ -72,13 +72,11 @@
                                 </tr>
                             </thead>
                             <tbody id="dc_table_body">
-                                <!-- Default Row 1 -->
                                 <tr class="border-b border-slate-100 row-dc">
                                     <td class="p-2"><input type="text" value="BTS / Node B" class="w-full px-2 py-1 border border-slate-200 rounded text-sm bg-slate-50"></td>
                                     <td class="p-2"><input type="number" value="30" oninput="hitungKapasitas()" class="w-full px-2 py-1 border border-slate-300 rounded text-sm dc-ampere font-semibold"></td>
                                     <td class="p-2 text-center"><button onclick="removeRow(this)" class="text-red-500 hover:text-red-700 text-xs font-bold cursor-pointer">Hapus</button></td>
                                 </tr>
-                                <!-- Default Row 2 -->
                                 <tr class="border-b border-slate-100 row-dc">
                                     <td class="p-2"><input type="text" value="Router & Switch Utama" class="w-full px-2 py-1 border border-slate-200 rounded text-sm bg-slate-50"></td>
                                     <td class="p-2"><input type="number" value="15" oninput="hitungKapasitas()" class="w-full px-2 py-1 border border-slate-300 rounded text-sm dc-ampere font-semibold"></td>
@@ -89,7 +87,6 @@
                     </div>
                 </div>
 
-                <!-- 3. Beban Perangkat AC -->
                 <div>
                     <div class="flex justify-between items-center mb-3">
                         <h2 class="text-lg font-bold text-slate-700 flex items-center gap-2">
@@ -109,14 +106,12 @@
                                 </tr>
                             </thead>
                             <tbody id="ac_table_body">
-                                <!-- Default Row 1 -->
                                 <tr class="border-b border-slate-100 row-ac">
                                     <td class="p-2"><input type="text" value="AC Ruang Perangkat (Gedung)" class="w-full px-2 py-1 border border-slate-200 rounded text-sm bg-slate-50"></td>
                                     <td class="p-2"><input type="number" value="1200" oninput="hitungKapasitas()" class="w-full px-2 py-1 border border-slate-300 rounded text-sm ac-watt font-semibold"></td>
                                     <td class="p-2"><input type="number" value="0.85" step="0.01" max="1" oninput="hitungKapasitas()" class="w-full px-2 py-1 border border-slate-300 rounded text-sm ac-pf"></td>
                                     <td class="p-2 text-center"><button onclick="removeRow(this)" class="text-red-500 hover:text-red-700 text-xs font-bold cursor-pointer">Hapus</button></td>
                                 </tr>
-                                <!-- Default Row 2 -->
                                 <tr class="border-b border-slate-100 row-ac">
                                     <td class="p-2"><input type="text" value="Sistem Lampu & Exhaust Fan" class="w-full px-2 py-1 border border-slate-200 rounded text-sm bg-slate-50"></td>
                                     <td class="p-2"><input type="number" value="350" oninput="hitungKapasitas()" class="w-full px-2 py-1 border border-slate-300 rounded text-sm ac-watt font-semibold"></td>
@@ -130,7 +125,6 @@
 
             </div>
 
-            <!-- SISI HASIL PERHITUNGAN (Sticky Sidebar) -->
             <div class="lg:col-span-1">
                 <div class="bg-slate-900 text-white p-6 rounded-2xl border border-slate-800 shadow-lg lg:sticky lg:top-6 space-y-6">
                     <div>
@@ -142,42 +136,46 @@
                                 <span class="font-bold text-blue-400" id="sum_i_dc">0 A</span>
                             </div>
                             <div class="flex justify-between">
-                                <span class="text-slate-400">Total Daya DC Aktual:</span>
-                                <span class="font-bold text-blue-400" id="sum_p_dc">0 W</span>
-                            </div>
-                            <div class="flex justify-between">
                                 <span class="text-slate-400">Total Daya AC Perangkat:</span>
                                 <span class="font-bold text-purple-400" id="sum_va_ac">0 VA</span>
                             </div>
+                            <div class="flex justify-between border-t border-slate-800 pt-2">
+                                <span class="text-slate-400">Kebutuhan AC Aktual (+Margin):</span>
+                                <span class="font-bold text-amber-400" id="res_ac_actual">0 VA</span>
+                            </div>
+                            <div class="flex justify-between">
+                                <span class="text-slate-400">Kebutuhan AC Maks (+Margin):</span>
+                                <span class="font-bold text-indigo-400" id="res_ac_max">0 VA</span>
+                            </div>
                         </div>
                     </div>
 
-                    <div class="border-t border-slate-800 pt-4 space-y-4">
-                        <!-- Skenario Aktual -->
-                        <div class="p-3 bg-slate-800 rounded-xl border border-slate-700">
-                            <p class="text-[11px] text-amber-400 font-bold uppercase tracking-wide">1. Total Daya AC Aktual (+ Margin)</p>
-                            <p class="text-xl font-extrabold mt-1 text-slate-100" id="res_ac_actual">0 VA</p>
-                            <p class="text-[10px] text-slate-400 mt-0.5">Berdasarkan akumulasi perangkat DC aktual + beban AC terpasang.</p>
-                        </div>
-
-                        <!-- Skenario Kapasitas Maksimum Infrastruktur -->
-                        <div class="p-3 bg-slate-800 rounded-xl border border-slate-700">
-                            <p class="text-[11px] text-indigo-400 font-bold uppercase tracking-wide">2. Total Daya AC Maksimal Infrastruktur (+ Margin)</p>
-                            <p class="text-xl font-extrabold mt-1 text-slate-100" id="res_ac_max">0 VA</p>
-                            <p class="text-[10px] text-slate-400 mt-0.5">Berdasarkan kapasitas batas atas Rectifier penuh + beban AC terpasang.</p>
-                        </div>
-                    </div>
-
-                    <!-- Rekomendasi PLN -->
                     <div class="border-t border-slate-800 pt-4">
-                        <p class="text-xs text-slate-400 font-bold uppercase tracking-wider mb-2 text-center">Rekomendasi Kapasitas PLN</p>
-                        <div class="bg-gradient-to-br from-emerald-600 to-teal-700 p-4 rounded-xl text-center shadow-inner">
-                            <p class="text-[11px] text-emerald-100 font-medium">Standard Daya PLN yang Disarankan:</p>
-                            <p class="text-3xl font-black mt-1 text-white tracking-tight" id="rec_pln">-- VA</p>
-                            <p class="text-xs bg-emerald-800/50 inline-block px-3 py-1 rounded-full text-emerald-200 mt-2 font-medium" id="rec_phase">--</p>
+                        <p class="text-xs text-slate-400 font-bold uppercase tracking-wider mb-3 text-center">Status & Rekomendasi PLN</p>
+                        
+                        <div id="status_box" class="p-4 rounded-xl text-center shadow-inner transition-colors duration-300">
+                            <p class="text-[11px] uppercase tracking-wide font-bold" id="status_title">Mengecek...</p>
+                            <p class="text-3xl font-black mt-1 tracking-tight" id="rec_pln">-- VA</p>
+                            <p class="text-xs bg-black/20 inline-block px-3 py-1 rounded-full mt-2 font-medium" id="rec_phase">--</p>
                         </div>
-                        <p class="text-[10px] text-slate-500 mt-3 text-center leading-relaxed">
-                            *Rekomendasi otomatis naik ke tingkat daya standard PLN berdasarkan skenario kapasitas maksimal infrastruktur rectifier agar aman dari risiko MCB trip saat pengisian baterai maksimum.
+                        
+                        <div class="mt-4 p-3 bg-slate-800/60 border border-slate-800 rounded-lg text-xs space-y-1.5 text-slate-300">
+                            <div class="flex justify-between">
+                                <span>Kapasitas PLN Eksisting:</span>
+                                <span class="font-semibold text-slate-100" id="lbl_existing">0 VA</span>
+                            </div>
+                            <div class="flex justify-between">
+                                <span>Rekomendasi Kapasitas:</span>
+                                <span class="font-semibold text-slate-100" id="lbl_recommended">0 VA</span>
+                            </div>
+                            <div class="flex justify-between border-t border-slate-700/50 pt-1 font-medium">
+                                <span id="lbl_diff_status">Selisih Kekurangan:</span>
+                                <span id="lbl_diff_value" class="font-bold">0 VA</span>
+                            </div>
+                        </div>
+
+                        <p class="text-[10px] text-slate-500 mt-4 text-center leading-relaxed">
+                            *Evaluasi kelayakan didasarkan pada skenario batas atas kapasitas penuh Rectifier agar MCB PLN tidak jatuh (*trip*) ketika penyuplaian beban dibarengi pengisian baterai berarus tinggi.
                         </p>
                     </div>
                 </div>
@@ -185,23 +183,21 @@
 
         </div>
 
-        <!-- Footer / Formula Info -->
         <div class="bg-slate-100 px-6 py-4 text-[11px] text-slate-500 border-t border-slate-200 grid grid-cols-1 md:grid-cols-2 gap-2">
             <div>
-                <strong>Metode Konversi Beban:</strong><br>
-                • Beban DC ke AC (VA) = (Arus Perangkat DC × V_DC) / (Efisiensi × PF Rectifier)<br>
-                • Beban AC ke AC (VA) = Daya Perangkat AC (Watt) / PF Perangkat AC
+                <strong>Metode Komparasi Daya PLN:</strong><br>
+                • Jika <i>Kapasitas PLN Eksisting</i> &ge; <i>Kebutuhan AC Maksimal</i>, maka status dinyatakan <b>AMAN</b>.<br>
+                • Jika <i>Kapasitas PLN Eksisting</i> &lt; <i>Kebutuhan AC Maksimal</i>, sistem akan merekomendasikan batas standard daya PLN terdekat di atasnya.
             </div>
             <div>
-                <strong>Perhitungan Total Akhir:</strong><br>
-                • Total VA AC Akhir = (Sum VA AC dari DC + Sum VA AC Perangkat) × (1 + Safety Margin %)
+                <strong>Catatan Penting:</strong><br>
+                • Pembagian sistem Phase (1 Phase atau 3 Phase) otomatis mengikuti klasifikasi resmi regulasi pembatasan daya dari PLN.
             </div>
         </div>
     </div>
 
-    <!-- JavaScript Logic -->
     <script>
-        // Tarif Daya Standar PLN (VA)
+        // Daftar Kapasitas Daya Standar PLN (VA) beserta fasa jaringan
         const plnCapacities = [
             { va: 450, phase: "1 Phase" }, { va: 900, phase: "1 Phase" }, { va: 1300, phase: "1 Phase" },
             { va: 2200, phase: "1 Phase" }, { va: 3500, phase: "1 Phase" }, { va: 4400, phase: "1 Phase" },
@@ -213,6 +209,20 @@
             { va: 147000, phase: "3 Phase" }, { va: 165000, phase: "3 Phase" }, { va: 197000, phase: "3 Phase" },
             { va: 242000, phase: "3 Phase" }
         ];
+
+        // Fungsi menginisialisasi Dropdown Daya PLN Eksisting
+        function initExistingPowerDropdown() {
+            const select = document.getElementById('daya_eksisting');
+            select.innerHTML = '<option value="0">0 VA (Belum Ada KWH)</option>';
+            plnCapacities.forEach(item => {
+                const option = document.createElement('option');
+                option.value = item.va;
+                // Set default/contoh ke 3500 VA agar terlihat fungsional di awal
+                if(item.va === 3500) option.selected = true; 
+                option.innerText = `${item.va.toLocaleString('id-ID')} VA (${item.phase})`;
+                select.appendChild(option);
+            });
+        }
 
         // Tambah Baris Perangkat DC baru
         function addDcRow() {
@@ -249,29 +259,27 @@
             hitungKapasitas();
         }
 
-        // Fungsi Inti Perhitungan
+        // Fungsi Perhitungan Inti
         function hitungKapasitas() {
-            // Parameter Utama
+            const dayaEksisting = parseFloat(document.getElementById('daya_eksisting').value) || 0;
             const v_dc = parseFloat(document.getElementById('v_dc').value) || 0;
             const i_rect_max = parseFloat(document.getElementById('i_rect').value) || 0;
             const safety = (parseFloat(document.getElementById('safety').value) || 0) / 100;
             const eff = (parseFloat(document.getElementById('eff').value) || 90) / 100;
             const pf_rect = parseFloat(document.getElementById('pf_rect').value) || 0.95;
 
-            // 1. Akumulasi Beban Perangkat DC
+            // 1. Akumulasi Arus DC Aktual
             let total_i_dc = 0;
             const dcInputs = document.querySelectorAll('.dc-ampere');
-            dcInputs.forEach(input => {
-                total_i_dc += parseFloat(input.value) || 0;
-            });
-            const total_p_dc_actual = total_i_dc * v_dc; // Watt Aktual DC
-            const total_p_dc_max = i_rect_max * v_dc;   // Watt Maksimal Infrastruktur Rectifier
+            dcInputs.forEach(input => { total_i_dc += parseFloat(input.value) || 0; });
+            
+            const total_p_dc_actual = total_i_dc * v_dc;
+            const total_p_dc_max = i_rect_max * v_dc;
 
-            // Konversi Beban DC ke VA AC
             const va_ac_from_dc_actual = total_p_dc_actual / (eff * pf_rect);
             const va_ac_from_dc_max = total_p_dc_max / (eff * pf_rect);
 
-            // 2. Akumulasi Beban Perangkat AC
+            // 2. Akumulasi Daya AC Perangkat
             let total_va_ac_devices = 0;
             const acRows = document.querySelectorAll('.row-ac');
             acRows.forEach(row => {
@@ -280,42 +288,86 @@
                 total_va_ac_devices += (watt / (pf || 1));
             });
 
-            // 3. Gabungkan Beban (AC Perangkat + AC hasil Konversi DC) & Kalikan Safety Margin
+            // 3. Gabungkan dan Tambahkan Safety Margin
             const final_ac_actual = (va_ac_from_dc_actual + total_va_ac_devices) * (1 + safety);
             const final_ac_max = (va_ac_from_dc_max + total_va_ac_devices) * (1 + safety);
 
-            // Tampilkan Ringkasan ke UI
+            // Tampilkan rincian beban dasar di UI
             document.getElementById('sum_i_dc').innerText = total_i_dc.toLocaleString('id-ID') + " A";
-            document.getElementById('sum_p_dc').innerText = total_p_dc_actual.toLocaleString('id-ID') + " W";
             document.getElementById('sum_va_ac').innerText = Math.round(total_va_ac_devices).toLocaleString('id-ID') + " VA";
-
             document.getElementById('res_ac_actual').innerText = Math.round(final_ac_actual).toLocaleString('id-ID') + " VA";
             document.getElementById('res_ac_max').innerText = Math.round(final_ac_max).toLocaleString('id-ID') + " VA";
 
-            // 4. Cari Rekomendasi Standard PLN Terdekat Berdasarkan Kapasitas Maksimal (Batas Aman Utama)
-            let rekomendasi = plnCapacities[plnCapacities.length - 1]; 
-            let found = false;
+            // 4. Cari Standar PLN Terdekat Berdasarkan Kebutuhan Maksimum
+            let rekomendasi = plnCapacities[plnCapacities.length - 1];
+            let isOverloadMaxPLN = final_ac_max > plnCapacities[plnCapacities.length - 1].va;
 
-            for (let i = 0; i < plnCapacities.length; i++) {
-                if (plnCapacities[i].va >= final_ac_max) {
-                    rekomendasi = plnCapacities[i];
-                    found = true;
-                    break;
+            if (!isOverloadMaxPLN) {
+                for (let i = 0; i < plnCapacities.length; i++) {
+                    if (plnCapacities[i].va >= final_ac_max) {
+                        rekomendasi = plnCapacities[i];
+                        break;
+                    }
                 }
             }
 
-            // Update Tampilan Hasil Rekomendasi PLN
-            if (!found && final_ac_max > plnCapacities[plnCapacities.length - 1].va) {
-                document.getElementById('rec_pln').innerText = "> 242.000 VA";
-                document.getElementById('rec_phase').innerText = "Butuh Gardu Distribusi Khusus / TM";
-            } else {
-                document.getElementById('rec_pln').innerText = rekomendasi.va.toLocaleString('id-ID') + " VA";
-                document.getElementById('rec_phase').innerText = "Koneksi Jaringan: " + rekomendasi.phase;
+            // 5. Logika Komparasi Daya Eksisting vs Daya Rekomendasi
+            const statusBox = document.getElementById('status_box');
+            const statusTitle = document.getElementById('status_title');
+            const recPlnText = document.getElementById('rec_pln');
+            const recPhaseText = document.getElementById('rec_phase');
+            
+            const lblDiffStatus = document.getElementById('lbl_diff_status');
+            const lblDiffValue = document.getElementById('lbl_diff_value');
+
+            document.getElementById('lbl_existing').innerText = dayaEksisting.toLocaleString('id-ID') + " VA";
+
+            if (isOverloadMaxPLN) {
+                // Skenario Beban Melebihi Batas Jaringan Tegangan Rendah Standar PLN
+                statusBox.className = "p-4 rounded-xl text-center shadow-inner bg-red-600 text-white";
+                statusTitle.innerText = "OVERLOAD - BUTUH GARDU TM";
+                recPlnText.innerText = "> 242.000 VA";
+                recPhaseText.innerText = "Koneksi Jaringan: Tegangan Menengah (TM)";
+                
+                document.getElementById('lbl_recommended').innerText = "> 242.000 VA";
+                lblDiffStatus.innerText = "Kekurangan Daya:";
+                lblDiffValue.innerText = "Hubungi PLN Khusus";
+                lblDiffValue.className = "font-bold text-red-400";
+            } 
+            else if (dayaEksisting >= final_ac_max) {
+                // Skenario Daya Eksisting Sudah Mencukupi Beban Maksimal Infrastruktur
+                statusBox.className = "p-4 rounded-xl text-center shadow-inner bg-emerald-600 text-white";
+                statusTitle.innerText = "AMAN - DAYA EKSISTING CUKUP";
+                recPlnText.innerText = dayaEksisting.toLocaleString('id-ID') + " VA";
+                
+                // Cari fasa daya eksisting untuk ditampilkan
+                const currentPhase = plnCapacities.find(item => item.va === dayaEksisting)?.phase || "1/3 Phase";
+                recPhaseText.innerText = "Koneksi Jaringan: " + currentPhase;
+
+                document.getElementById('lbl_recommended').innerText = rekomendasi.va.toLocaleString('id-ID') + " VA";
+                lblDiffStatus.innerText = "Sisa Cadangan Daya:";
+                lblDiffValue.innerText = "+" + Math.round(dayaEksisting - final_ac_max).toLocaleString('id-ID') + " VA";
+                lblDiffValue.className = "font-bold text-emerald-400";
+            } 
+            else {
+                // Skenario Daya Eksisting Kurang, Direkomendasikan untuk Upgrade Daya
+                statusBox.className = "p-4 rounded-xl text-center shadow-inner bg-amber-500 text-slate-900";
+                statusTitle.innerText = "PERLU UPGRADE KAPASITAS";
+                recPlnText.innerText = rekomendasi.va.toLocaleString('id-ID') + " VA";
+                recPhaseText.innerText = "Koneksi Jaringan: " + rekomendasi.phase;
+
+                document.getElementById('lbl_recommended').innerText = rekomendasi.va.toLocaleString('id-ID') + " VA";
+                lblDiffStatus.innerText = "Kekurangan ke Batas Aman:";
+                lblDiffValue.innerText = "-" + Math.round(final_ac_max - dayaEksisting).toLocaleString('id-ID') + " VA";
+                lblDiffValue.className = "font-bold text-amber-300";
             }
         }
 
-        // Jalankan kalkulasi otomatis saat halaman pertama kali dibuka
-        window.onload = hitungKapasitas;
+        // Jalankan saat pertama kali aplikasi dibuka
+        window.onload = function() {
+            initExistingPowerDropdown();
+            hitungKapasitas();
+        };
     </script>
 </body>
 </html>
