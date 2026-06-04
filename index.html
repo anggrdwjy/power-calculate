@@ -3,64 +3,77 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Calculate Power Supply Infrastruktur IT</title>
-    <!-- Tailwind CSS CDN -->
+    <title>Power Calculate and Analysis Backup System</title>
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <style>
+        @media print {
+            body { background: white; color: black; }
+            .no-print { display: none !important; }
+            .print-layout { display: block !important; }
+        }
+    </style>
 </head>
 <body class="bg-slate-50 text-slate-800 font-sans antialiased min-h-screen py-10 px-4 flex flex-col justify-between">
 
-    <div class="max-w-6xl mx-auto bg-white rounded-2xl shadow-xl overflow-hidden border border-slate-100 w-full mb-8">
-        <!-- Header dengan Logo -->
+    <div class="max-w-6xl mx-auto bg-white rounded-2xl shadow-xl overflow-hidden border border-slate-100 w-full mb-8 no-print">
         <div class="bg-gradient-to-r from-blue-600 to-indigo-700 p-6 md:p-8 text-white flex flex-col md:flex-row justify-between items-start md:items-center gap-6">
             <div>
-                <h1 class="text-2xl md:text-3xl font-bold tracking-tight">Kalkulator Power Supply Infrastruktur IT</h1>
-                <p class="text-blue-100 mt-2 text-sm md:text-base">Analisis kebutuhan penambahan daya listrik PLN dengan membandingkan kapasitas eksisting terhadap total beban AC & DC.</p>
+                <h1 class="text-2xl md:text-3xl font-bold tracking-tight">Power Calculate and Analysis Backup System</h1>
+                <p class="text-blue-100 mt-2 text-sm md:text-base">Analisis penambahan daya KWH, rekomendasi kabel PUIL, konfigurasi Redundansi Rectifier (Main+Backup), & Alokasi Kapasitas Baterai.</p>
             </div>
             
-            <!-- Tempat Logo Perusahaan / Aplikasi -->
             <div class="flex items-center gap-3 bg-white/10 p-3 rounded-xl backdrop-blur-md border border-white/20 self-stretch md:self-auto justify-center min-w-[180px]">
-                <!-- SILAHKAN GANTI PATH URL DI BAWAH INI DENGAN LOGO ANDA -->
-                <!-- <img src="path/ke/logo-anda.png" alt="Logo" class="h-10 object-contain"> -->
-                
-                <!-- Placeholder Logo Modern Menggunakan SVG (Petir Energi) -->
                 <svg class="w-8 h-8 text-amber-400 shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                     <path stroke-linecap="round" stroke-linejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z"></path>
                 </svg>
                 <div class="text-left border-l border-white/20 pl-3">
-                    <div class="font-black text-sm tracking-wider leading-none text-white">POWER CALCULATE</div>
-                    <div class="text-[10px] text-blue-200 uppercase font-bold tracking-widest mt-0.5">by anggrdwjy</div>
+                    <div class="font-black text-sm tracking-wider leading-none text-white">POWER CALCULATE AND ANALYSIS BACKUP SYSTEM</div>
+                    <div class="text-[10px] text-blue-200 uppercase font-bold tracking-widest mt-0.5">Infrastructure IT</div>
                 </div>
             </div>
         </div>
 
         <div class="p-6 md:p-8 grid grid-cols-1 lg:grid-cols-3 gap-8">
             
-            <!-- SISI INPUT (2 Kolom pada Layar Besar) -->
             <div class="lg:col-span-2 space-y-8">
                 
-                <!-- 1. Parameter Utama Sistem -->
                 <div class="bg-slate-50 p-5 rounded-xl border border-slate-200">
                     <h2 class="text-lg font-bold text-slate-700 mb-4 flex items-center gap-2">
                         <span class="bg-blue-600 text-white w-6 h-6 rounded-full inline-flex items-center justify-center text-xs">1</span>
-                        Parameter Utama & Daya Eksisting
+                        Parameter Utama & Sistem Rectifier (N+1)
                     </h2>
-                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                    
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-4">
                         <div>
                             <label class="block text-xs font-semibold text-slate-600 mb-1">Daya PLN Eksisting Saat Ini</label>
                             <select id="daya_eksisting" onchange="hitungKapasitas()" class="w-full px-3 py-2 bg-white border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 text-sm focus:outline-none font-medium">
-                                <!-- Opsi diisi otomatis oleh JavaScript -->
-                            </select>
+                                </select>
                         </div>
                         <div>
                             <label class="block text-xs font-semibold text-slate-600 mb-1">Tegangan Sistem DC (V)</label>
-                            <input type="number" id="v_dc" value="48" oninput="hitungKapasitas()" class="w-full px-3 py-2 bg-white border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 text-sm focus:outline-none">
-                        </div>
-                        <div>
-                            <label class="block text-xs font-semibold text-slate-600 mb-1">Kapasitas Rectifier (A)</label>
-                            <input type="number" id="i_rect" value="100" oninput="hitungKapasitas()" class="w-full px-3 py-2 bg-white border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 text-sm focus:outline-none">
+                            <input type="number" id="v_dc" value="48" oninput="hitungKapasitas()" class="w-full px-3 py-2 bg-white border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 text-sm focus:outline-none font-semibold">
                         </div>
                     </div>
-                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mt-3">
+
+                    <div class="bg-white p-4 rounded-lg border border-slate-200 shadow-sm grid grid-cols-1 sm:grid-cols-3 gap-4 mb-4">
+                        <div>
+                            <label class="block text-xs font-semibold text-indigo-950 mb-1">Kapasitas / Modul Rectifier</label>
+                            <div class="relative flex items-center">
+                                <input type="number" id="i_modul" value="50" oninput="hitungKapasitas()" class="w-full px-3 py-2 bg-slate-50 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 text-sm focus:outline-none font-bold text-slate-700 pr-10">
+                                <span class="absolute right-3 text-xs font-bold text-slate-400 pointer-events-none">Amp</span>
+                            </div>
+                        </div>
+                        <div>
+                            <label class="block text-xs font-semibold text-emerald-700 mb-1">Jumlah Modul (MAIN)</label>
+                            <input type="number" id="qty_main" value="2" min="1" oninput="hitungKapasitas()" class="w-full px-3 py-2 bg-slate-50 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 text-sm focus:outline-none font-bold text-emerald-600">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-semibold text-amber-700 mb-1">Jumlah Modul (BACKUP)</label>
+                            <input type="number" id="qty_backup" value="1" min="0" oninput="hitungKapasitas()" class="w-full px-3 py-2 bg-slate-50 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 text-sm focus:outline-none font-bold text-amber-600">
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-2 sm:grid-cols-4 gap-4">
                         <div>
                             <label class="block text-xs font-semibold text-slate-600 mb-1">Safety Margin PLN (%)</label>
                             <input type="number" id="safety" value="20" oninput="hitungKapasitas()" class="w-full px-3 py-2 bg-white border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 text-sm focus:outline-none">
@@ -70,13 +83,19 @@
                             <input type="number" id="eff" value="92" oninput="hitungKapasitas()" class="w-full px-3 py-2 bg-white border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 text-sm focus:outline-none">
                         </div>
                         <div>
-                            <label class="block text-xs font-semibold text-slate-600 mb-1">Power Factor (Cos &phi;)</label>
+                            <label class="block text-xs font-semibold text-slate-600 mb-1">Cos &phi; (Power Factor)</label>
                             <input type="number" id="pf_rect" value="0.95" step="0.01" max="1" oninput="hitungKapasitas()" class="w-full px-3 py-2 bg-white border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 text-sm focus:outline-none">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-semibold text-slate-600 mb-1">Target Backup Baterai</label>
+                            <div class="relative flex items-center">
+                                <input type="number" id="backup_hours" value="8" oninput="hitungKapasitas()" class="w-full px-3 py-2 bg-white border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 text-sm focus:outline-none font-bold text-indigo-700 pr-10">
+                                <span class="absolute right-3 text-xs font-bold text-slate-400 pointer-events-none">Jam</span>
+                            </div>
                         </div>
                     </div>
                 </div>
 
-                <!-- 2. Beban Perangkat DC -->
                 <div>
                     <div class="flex justify-between items-center mb-3">
                         <h2 class="text-lg font-bold text-slate-700 flex items-center gap-2">
@@ -96,12 +115,12 @@
                             </thead>
                             <tbody id="dc_table_body">
                                 <tr class="border-b border-slate-100 row-dc">
-                                    <td class="p-2"><input type="text" value="BTS / Node B" class="w-full px-2 py-1 border border-slate-200 rounded text-sm bg-slate-50"></td>
+                                    <td class="p-2"><input type="text" value="BTS / Node B" class="w-full px-2 py-1 border border-slate-200 rounded text-sm bg-slate-50 dc-name"></td>
                                     <td class="p-2"><input type="number" value="30" oninput="hitungKapasitas()" class="w-full px-2 py-1 border border-slate-300 rounded text-sm dc-ampere font-semibold"></td>
                                     <td class="p-2 text-center"><button onclick="removeRow(this)" class="text-red-500 hover:text-red-700 text-xs font-bold cursor-pointer">Hapus</button></td>
                                 </tr>
                                 <tr class="border-b border-slate-100 row-dc">
-                                    <td class="p-2"><input type="text" value="Router & Switch Utama" class="w-full px-2 py-1 border border-slate-200 rounded text-sm bg-slate-50"></td>
+                                    <td class="p-2"><input type="text" value="Router & Switch Utama" class="w-full px-2 py-1 border border-slate-200 rounded text-sm bg-slate-50 dc-name"></td>
                                     <td class="p-2"><input type="number" value="15" oninput="hitungKapasitas()" class="w-full px-2 py-1 border border-slate-300 rounded text-sm dc-ampere font-semibold"></td>
                                     <td class="p-2 text-center"><button onclick="removeRow(this)" class="text-red-500 hover:text-red-700 text-xs font-bold cursor-pointer">Hapus</button></td>
                                 </tr>
@@ -110,7 +129,6 @@
                     </div>
                 </div>
 
-                <!-- 3. Beban Perangkat AC -->
                 <div>
                     <div class="flex justify-between items-center mb-3">
                         <h2 class="text-lg font-bold text-slate-700 flex items-center gap-2">
@@ -131,15 +149,9 @@
                             </thead>
                             <tbody id="ac_table_body">
                                 <tr class="border-b border-slate-100 row-ac">
-                                    <td class="p-2"><input type="text" value="AC Ruang Perangkat (Gedung)" class="w-full px-2 py-1 border border-slate-200 rounded text-sm bg-slate-50"></td>
+                                    <td class="p-2"><input type="text" value="AC Ruang Perangkat" class="w-full px-2 py-1 border border-slate-200 rounded text-sm bg-slate-50 ac-name"></td>
                                     <td class="p-2"><input type="number" value="1200" oninput="hitungKapasitas()" class="w-full px-2 py-1 border border-slate-300 rounded text-sm ac-watt font-semibold"></td>
                                     <td class="p-2"><input type="number" value="0.85" step="0.01" max="1" oninput="hitungKapasitas()" class="w-full px-2 py-1 border border-slate-300 rounded text-sm ac-pf"></td>
-                                    <td class="p-2 text-center"><button onclick="removeRow(this)" class="text-red-500 hover:text-red-700 text-xs font-bold cursor-pointer">Hapus</button></td>
-                                </tr>
-                                <tr class="border-b border-slate-100 row-ac">
-                                    <td class="p-2"><input type="text" value="Sistem Lampu & Exhaust Fan" class="w-full px-2 py-1 border border-slate-200 rounded text-sm bg-slate-50"></td>
-                                    <td class="p-2"><input type="number" value="350" oninput="hitungKapasitas()" class="w-full px-2 py-1 border border-slate-300 rounded text-sm ac-watt font-semibold"></td>
-                                    <td class="p-2"><input type="number" value="1.0" step="0.01" max="1" oninput="hitungKapasitas()" class="w-full px-2 py-1 border border-slate-300 rounded text-sm ac-pf"></td>
                                     <td class="p-2 text-center"><button onclick="removeRow(this)" class="text-red-500 hover:text-red-700 text-xs font-bold cursor-pointer">Hapus</button></td>
                                 </tr>
                             </tbody>
@@ -149,104 +161,211 @@
 
             </div>
 
-            <!-- SISI HASIL PERHITUNGAN (Sticky Sidebar) -->
             <div class="lg:col-span-1">
-                <div class="bg-slate-900 text-white p-6 rounded-2xl border border-slate-800 shadow-lg lg:sticky lg:top-6 space-y-6">
+                <div class="bg-slate-900 text-white p-6 rounded-2xl border border-slate-800 shadow-lg lg:sticky lg:top-6 space-y-5">
                     <div>
-                        <h2 class="text-lg font-bold text-slate-200 border-b border-slate-800 pb-3 mb-4">Ringkasan Beban</h2>
-                        
-                        <div class="space-y-3 text-sm">
+                        <h2 class="text-sm font-bold uppercase tracking-wider text-slate-400 border-b border-slate-800 pb-2 mb-3">Ringkasan Sistem</h2>
+                        <div class="space-y-2 text-sm">
                             <div class="flex justify-between">
-                                <span class="text-slate-400">Total Arus DC Aktual:</span>
+                                <span class="text-slate-400">Total Arus DC Beban:</span>
                                 <span class="font-bold text-blue-400" id="sum_i_dc">0 A</span>
                             </div>
                             <div class="flex justify-between">
-                                <span class="text-slate-400">Total Daya AC Perangkat:</span>
-                                <span class="font-bold text-purple-400" id="sum_va_ac">0 VA</span>
-                            </div>
-                            <div class="flex justify-between border-t border-slate-800 pt-2">
-                                <span class="text-slate-400">Kebutuhan AC Aktual (+Margin):</span>
-                                <span class="font-bold text-amber-400" id="res_ac_actual">0 VA</span>
+                                <span class="text-slate-400">Kapasitas Rectifier (Main):</span>
+                                <span class="font-bold text-emerald-400" id="sum_rect_main">0 A</span>
                             </div>
                             <div class="flex justify-between">
-                                <span class="text-slate-400">Kebutuhan AC Maks (+Margin):</span>
-                                <span class="font-bold text-indigo-400" id="res_ac_max">0 VA</span>
+                                <span class="text-slate-400">Kapasitas Total (Sistem):</span>
+                                <span class="font-bold text-amber-500" id="sum_rect_total">0 A</span>
+                            </div>
+                            <div class="flex justify-between border-t border-slate-800 pt-1.5">
+                                <span class="text-slate-400">Kebutuhan AC Riil (+Margin):</span>
+                                <span class="font-bold text-amber-400" id="res_ac_actual">0 VA</span>
                             </div>
                         </div>
                     </div>
 
-                    <!-- Rekomendasi & Hasil Analisis PLN -->
-                    <div class="border-t border-slate-800 pt-4">
-                        <p class="text-xs text-slate-400 font-bold uppercase tracking-wider mb-3 text-center">Status & Rekomendasi PLN</p>
-                        
+                    <div class="border-t border-slate-800 pt-3">
+                        <div class="bg-indigo-950/60 border border-indigo-900 rounded-xl p-3.5 shadow-inner space-y-3">
+                            <div class="text-center">
+                                <p class="text-[10px] uppercase text-indigo-300 font-bold tracking-wider">Total Bank Baterai Sistem (<span id="lbl_res_hours" class="text-white">8</span> Jam)</p>
+                                <p class="text-2xl font-black text-emerald-400 mt-0.5" id="rec_battery">-- Ah</p>
+                                <p class="text-[10px] text-indigo-200 mt-0.5" id="rec_battery_energy">-- kWh</p>
+                            </div>
+
+                            <div class="bg-blue-950/40 border border-blue-900/60 rounded-lg p-2 text-center text-xs">
+                                <span class="text-[10px] uppercase tracking-wider text-blue-300 font-bold block">Kapasitas per Rectifier (Main)</span>
+                                <span class="font-extrabold text-blue-400 text-base" id="rec_battery_per_rect">-- Ah</span>
+                            </div>
+                            
+                            <div class="border-t border-indigo-900/60 pt-2 text-xs text-indigo-200 space-y-1.5">
+                                <p class="text-[9px] uppercase tracking-wider text-indigo-300 font-bold mb-1">Estimasi Kebutuhan Fisik Unit:</p>
+                                <div class="flex justify-between items-center bg-black/20 px-2 py-1 rounded">
+                                    <span>Jika Pakai Varian **50 Ah**:</span>
+                                    <span class="font-bold text-white text-sm" id="rec_qty_50ah">-- Unit</span>
+                                </div>
+                                <div class="flex justify-between items-center bg-black/20 px-2 py-1 rounded">
+                                    <span>Jika Pakai Varian **100 Ah**:</span>
+                                    <span class="font-bold text-white text-sm" id="rec_qty_100ah">-- Unit</span>
+                                </div>
+                            </div>
+                            <p class="text-[9px] text-slate-500 text-center italic leading-none">* Pembulatan ke atas (DoD 80%)</p>
+                        </div>
+                    </div>
+
+                    <div class="border-t border-slate-800 pt-3 space-y-3">
                         <div id="status_box" class="p-4 rounded-xl text-center shadow-inner transition-colors duration-300">
                             <p class="text-[11px] uppercase tracking-wide font-bold" id="status_title">Mengecek...</p>
                             <p class="text-3xl font-black mt-1 tracking-tight" id="rec_pln">-- VA</p>
                             <p class="text-xs bg-black/20 inline-block px-3 py-1 rounded-full mt-2 font-medium" id="rec_phase">--</p>
                         </div>
-                        
-                        <div class="mt-4 p-3 bg-slate-800/60 border border-slate-800 rounded-lg text-xs space-y-1.5 text-slate-300">
-                            <div class="flex justify-between">
-                                <span>Kapasitas PLN Eksisting:</span>
-                                <span class="font-semibold text-slate-100" id="lbl_existing">0 VA</span>
-                            </div>
-                            <div class="flex justify-between">
-                                <span>Rekomendasi Kapasitas:</span>
-                                <span class="font-semibold text-slate-100" id="lbl_recommended">0 VA</span>
-                            </div>
-                            <div class="flex justify-between border-t border-slate-700/50 pt-1 font-medium">
-                                <span id="lbl_diff_status">Selisih Kekurangan:</span>
-                                <span id="lbl_diff_value" class="font-bold">0 VA</span>
-                            </div>
+
+                        <div class="bg-slate-800 border border-slate-700 rounded-xl p-3 text-center">
+                            <p class="text-[10px] uppercase text-slate-400 font-bold tracking-wider">Ukuran Penampang Kabel Utama</p>
+                            <p class="text-xl font-extrabold text-amber-400 mt-0.5" id="rec_cable">-- mm²</p>
                         </div>
+                    </div>
+
+                    <div class="grid grid-cols-2 gap-3 border-t border-slate-800 pt-3">
+                        <button onclick="window.print()" class="px-3 py-2 bg-blue-600 hover:bg-blue-700 text-white font-bold rounded-lg text-xs transition flex items-center justify-center gap-1.5 cursor-pointer shadow">
+                            <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h10a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z"></path></svg>
+                            Cetak PDF
+                        </button>
+                        <button onclick="eksporExcel()" class="px-3 py-2 bg-emerald-600 hover:bg-emerald-700 text-white font-bold rounded-lg text-xs transition flex items-center justify-center gap-1.5 cursor-pointer shadow">
+                            <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>
+                            Unduh Excel
+                        </button>
                     </div>
                 </div>
             </div>
 
         </div>
 
-        <!-- Info Formula -->
         <div class="bg-slate-100 px-6 py-4 text-[11px] text-slate-500 border-t border-slate-200 grid grid-cols-1 md:grid-cols-2 gap-2">
             <div>
-                <strong>Metode Komparasi Daya PLN:</strong><br>
-                • Jika <i>Kapasitas PLN Eksisting</i> &ge; <i>Kebutuhan AC Maksimal</i>, status = <b>AMAN</b>.<br>
-                • Jika <i>Kapasitas PLN Eksisting</i> &lt; <i>Kebutuhan AC Maksimal</i>, sistem menyarankan upgrade daya standar PLN terdekat di atasnya.
+                <strong>Perhitungan Kapasitas Per Modul Rectifier:</strong><br>
+                • Rumus Alokasi Ah Per Rectifier = Total Kapasitas Baterai Bank (Ah) dibagi dengan Jumlah Modul MAIN.
             </div>
             <div>
-                <strong>Pemberitahuan Sistem:</strong><br>
-                • Klasifikasi kapasitas fasa (1 Phase / 3 Phase) disesuaikan secara real-time berdasarkan regulasi standarisasi batasan daya PT PLN (Persero).
+                <strong>Standar Puncak PLN KWH:</strong><br>
+                • Penampang kabel hulu dikalkulasi dari skenario pengisian penuh baterai maksimum di mana modul Main & Backup aktif simultan.
             </div>
         </div>
     </div>
 
-    <!-- FOOTER POWERED BY -->
-    <footer class="max-w-6xl mx-auto w-full bg-slate-900 text-slate-400 px-6 py-4 rounded-xl text-xs flex flex-col sm:flex-row justify-between items-center gap-3 shadow-md border border-slate-800">
+    <footer class="max-w-6xl mx-auto w-full bg-slate-900 text-slate-400 px-6 py-4 rounded-xl text-xs flex flex-col sm:flex-row justify-between items-center gap-3 shadow-md border border-slate-800 no-print">
         <div>
-            &copy; 2026 <strong>Kalkulator Power Supply Infrastruktur IT</strong>.
+            &copy; 2026 <strong>Power Calculate and Analysis Backup System</strong>.
         </div>
         <div class="flex items-center gap-1.5 text-slate-300">
-            <span>Powered by Anggarda Saputra Wijaya</span>
-            <a href="https://github.com" target="_blank" class="font-bold text-blue-400 hover:text-blue-300 transition duration-150 flex items-center gap-1">
-                <!-- Mini Icon Creator -->
-                <svg class="w-3.5 h-3.5 inline text-blue-400" fill="currentColor" viewBox="0 0 20 20"><path d="M11 3a1 1 0 10-2 0v1a1 1 0 102 0V3zM15.657 5.757a1 1 0 00-1.414-1.414l-.707.707a1 1 0 001.414 1.414l.707-.707zM18 10a1 1 0 100-2h-1a1 1 0 100 2h1zM5.05 6.464a1 1 0 10-1.414-1.414l-.707.707a1 1 0 101.414 1.414l.707-.707zM5 10a1 1 0 11-2 0h1a1 1 0 112 0zM8 16v-1a1 1 0 10-2 0v1a1 1 0 102 0zM14.243 14.243a1 1 0 10-1.414-1.414l-.707.707a1 1 0 101.414 1.414l.707-.707zM16 14a1 1 0 11-2 0h1a1 1 0 112 0z"></path></svg>
-                github.com/anggrdwjy
-            </a>
+            <span>Powered by</span>
+            <a href="#" class="font-bold text-blue-400 hover:text-blue-300 transition duration-150">github.com/anggrdwjy</a>
         </div>
     </footer>
 
-    <!-- JavaScript Logic -->
+
+    <div class="hidden print-layout w-full max-w-4xl mx-auto p-10 font-serif text-black bg-white">
+        <div class="border-b-4 border-black pb-4 mb-6 flex justify-between items-center">
+            <div>
+                <h1 class="text-2xl font-bold uppercase tracking-tight">Laporan Kelayakan Infrastruktur Energi & Beban</h1>
+                <p class="text-xs italic text-gray-600">Dokumen Rekomendasi Upgrade PLN, Dimensi Kabel Utama, & Sistem Cadangan Baterai Redundant</p>
+            </div>
+            <div class="text-right text-xs">
+                <p class="font-bold">POWER TECH INFRASTRUCTURE</p>
+                <p>Tanggal Evaluasi: <span id="print_date">--/--/----</span></p>
+            </div>
+        </div>
+
+        <div class="bg-gray-100 border border-gray-300 p-4 rounded-lg mb-6 grid grid-cols-3 gap-4 text-sm">
+            <div>
+                <p class="font-bold uppercase text-gray-700 text-xs mb-1">Status Analisis:</p>
+                <div class="text-base font-black" id="print_status_title">--</div>
+            </div>
+            <div>
+                <p class="font-bold uppercase text-gray-700 text-xs mb-1">Rekomendasi PLN Baru:</p>
+                <div class="text-lg font-black text-blue-800" id="print_rec_pln">-- VA</div>
+                <p class="text-[10px] text-gray-600" id="print_rec_phase">--</p>
+            </div>
+            <div>
+                <p class="font-bold uppercase text-gray-700 text-xs mb-1">Kapasitas Baterai Backup:</p>
+                <div class="text-lg font-black text-indigo-900" id="print_rec_battery">-- Ah</div>
+                <p class="text-[10px] text-gray-600" id="print_rec_battery_energy">-- kWh</p>
+            </div>
+        </div>
+
+        <h2 class="text-sm font-bold uppercase tracking-wide border-b border-gray-400 mb-2">1. Konfigurasi Parameter Input Utama & Rectifier</h2>
+        <table class="w-full text-xs text-left border border-gray-300 mb-6">
+            <thead class="bg-gray-100">
+                <tr>
+                    <th class="p-2 border border-gray-300">Daya Eksisting</th>
+                    <th class="p-2 border border-gray-300">Tegangan DC</th>
+                    <th class="p-2 border border-gray-300">Konfigurasi Rectifier</th>
+                    <th class="p-2 border border-gray-300">Target Backup</th>
+                    <th class="p-2 border border-gray-300">Rekomendasi Kabel</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td class="p-2 border border-gray-300" id="print_p_existing">--</td>
+                    <td class="p-2 border border-gray-300" id="print_p_vdc">-- V</td>
+                    <td class="p-2 border border-gray-300" id="print_rect_config">--</td>
+                    <td class="p-2 border border-gray-300 font-bold text-indigo-700" id="print_p_hours">-- Jam</td>
+                    <td class="p-2 border border-gray-300 font-bold text-red-700" id="print_p_cable">-- mm²</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <h2 class="text-sm font-bold uppercase tracking-wide border-b border-gray-400 mb-2">2. Akumulasi Beban & Hasil Kalkulasi Kuantitas Unit</h2>
+        <table class="w-full text-xs text-left border border-gray-300 mb-6">
+            <tbody>
+                <tr class="border-b border-gray-300">
+                    <td class="p-2 font-medium w-2/3">Total Akumulasi Arus DC Aktual Perangkat:</td>
+                    <td class="p-2 font-bold text-right" id="print_calc_idc">0 A</td>
+                </tr>
+                <tr class="border-b border-gray-300">
+                    <td class="p-2 font-medium">Total Akumulasi Daya AC Perangkat (Non-Rectifier):</td>
+                    <td class="p-2 font-bold text-right" id="print_calc_vac">0 VA</td>
+                </tr>
+                <tr class="border-b border-gray-300">
+                    <td class="p-2 font-medium">Kebutuhan Minimum Total Kapasitas Baterai:</td>
+                    <td class="p-2 font-bold text-right text-indigo-900" id="print_calc_battery_final">0 Ah</td>
+                </tr>
+                <tr class="border-b border-gray-300 bg-blue-50">
+                    <td class="p-2 font-semibold">Alokasi Kapasitas Baterai Per Modul Rectifier (Main):</td>
+                    <td class="p-2 font-extrabold text-right text-blue-900" id="print_calc_battery_per_rect">0 Ah</td>
+                </tr>
+                <tr class="border-b border-gray-300 bg-indigo-50 font-semibold">
+                    <td class="p-2 font-medium">Rekomendasi Kuantitas Fisik (Jika Menggunakan Opsi 50 Ah):</td>
+                    <td class="p-2 text-right text-slate-900" id="print_qty_50ah">0 Unit</td>
+                </tr>
+                <tr class="border-b border-gray-300 bg-indigo-50 font-semibold">
+                    <td class="p-2 font-medium">Rekomendasi Kuantitas Fisik (Jika Menggunakan Opsi 100 Ah):</td>
+                    <td class="p-2 text-right text-slate-900" id="print_qty_100ah">0 Unit</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <div class="mt-12 pt-6 border-t border-gray-300 text-[10px] text-gray-500 text-center italic">
+            Laporan dikeluarkan secara mandiri oleh Power Tech Engine Berdasarkan Regulasi PUIL Terintegrasi.
+        </div>
+    </div>
+
+
     <script>
-        // Daftar Kapasitas Daya Standar PLN (VA)
         const plnCapacities = [
-            { va: 450, phase: "1 Phase" }, { va: 900, phase: "1 Phase" }, { va: 1300, phase: "1 Phase" },
-            { va: 2200, phase: "1 Phase" }, { va: 3500, phase: "1 Phase" }, { va: 4400, phase: "1 Phase" },
-            { va: 5500, phase: "1 Phase" }, { va: 6600, phase: "3 Phase" }, { va: 7700, phase: "1 Phase" },
-            { va: 10600, phase: "3 Phase" }, { va: 11000, phase: "1 Phase" }, { va: 13200, phase: "3 Phase" },
-            { va: 16500, phase: "3 Phase" }, { va: 23000, phase: "3 Phase" }, { va: 33000, phase: "3 Phase" },
-            { va: 41500, phase: "3 Phase" }, { va: 53000, phase: "3 Phase" }, { va: 66000, phase: "3 Phase" },
-            { va: 82500, phase: "3 Phase" }, { va: 105000, phase: "3 Phase" }, { va: 131000, phase: "3 Phase" },
-            { va: 147000, phase: "3 Phase" }, { va: 165000, phase: "3 Phase" }, { va: 197000, phase: "3 Phase" },
-            { va: 242000, phase: "3 Phase" }
+            { va: 450, phase: "1 Phase", cable: 2.5 }, { va: 900, phase: "1 Phase", cable: 2.5 }, 
+            { va: 1300, phase: "1 Phase", cable: 2.5 }, { va: 2200, phase: "1 Phase", cable: 2.5 }, 
+            { va: 3500, phase: "1 Phase", cable: 4 }, { va: 4400, phase: "1 Phase", cable: 4 },
+            { va: 5500, phase: "1 Phase", cable: 6 }, { va: 6600, phase: "3 Phase", cable: 4 }, 
+            { va: 7700, phase: "1 Phase", cable: 6 }, { va: 10600, phase: "3 Phase", cable: 4 }, 
+            { va: 11000, phase: "1 Phase", cable: 10 }, { va: 13200, phase: "3 Phase", cable: 6 },
+            { va: 16500, phase: "3 Phase", cable: 6 }, { va: 23000, phase: "3 Phase", cable: 10 }, 
+            { va: 33000, phase: "3 Phase", cable: 16 }, { va: 41500, phase: "3 Phase", cable: 25 }, 
+            { va: 53000, phase: "3 Phase", cable: 35 }, { va: 66000, phase: "3 Phase", cable: 50 },
+            { va: 82500, phase: "3 Phase", cable: 70 }, { va: 105000, phase: "3 Phase", cable: 95 }, 
+            { va: 131000, phase: "3 Phase", cable: 120 }, { va: 147000, phase: "3 Phase", cable: 150 }, 
+            { va: 165000, phase: "3 Phase", cable: 185 }, { va: 197000, phase: "3 Phase", cable: 240 },
+            { va: 242000, phase: "3 Phase", cable: 300 }
         ];
 
         function initExistingPowerDropdown() {
@@ -266,7 +385,7 @@
             const row = document.createElement('tr');
             row.className = "border-b border-slate-100 row-dc";
             row.innerHTML = `
-                <td class="p-2"><input type="text" placeholder="Nama Perangkat DC Baru..." class="w-full px-2 py-1 border border-slate-200 rounded text-sm bg-slate-50"></td>
+                <td class="p-2"><input type="text" placeholder="Perangkat DC Baru..." class="w-full px-2 py-1 border border-slate-200 rounded text-sm bg-slate-50 dc-name"></td>
                 <td class="p-2"><input type="number" value="0" oninput="hitungKapasitas()" class="w-full px-2 py-1 border border-slate-300 rounded text-sm dc-ampere font-semibold"></td>
                 <td class="p-2 text-center"><button onclick="removeRow(this)" class="text-red-500 hover:text-red-700 text-xs font-bold cursor-pointer">Hapus</button></td>
             `;
@@ -279,7 +398,7 @@
             const row = document.createElement('tr');
             row.className = "border-b border-slate-100 row-ac";
             row.innerHTML = `
-                <td class="p-2"><input type="text" placeholder="Nama Perangkat AC Baru..." class="w-full px-2 py-1 border border-slate-200 rounded text-sm bg-slate-50"></td>
+                <td class="p-2"><input type="text" placeholder="Perangkat AC Baru..." class="w-full px-2 py-1 border border-slate-200 rounded text-sm bg-slate-50 ac-name"></td>
                 <td class="p-2"><input type="number" value="0" oninput="hitungKapasitas()" class="w-full px-2 py-1 border border-slate-300 rounded text-sm ac-watt font-semibold"></td>
                 <td class="p-2"><input type="number" value="0.85" step="0.01" max="1" oninput="hitungKapasitas()" class="w-full px-2 py-1 border border-slate-300 rounded text-sm ac-pf"></td>
                 <td class="p-2 text-center"><button onclick="removeRow(this)" class="text-red-500 hover:text-red-700 text-xs font-bold cursor-pointer">Hapus</button></td>
@@ -296,37 +415,70 @@
         function hitungKapasitas() {
             const dayaEksisting = parseFloat(document.getElementById('daya_eksisting').value) || 0;
             const v_dc = parseFloat(document.getElementById('v_dc').value) || 0;
-            const i_rect_max = parseFloat(document.getElementById('i_rect').value) || 0;
-            const safety = (parseFloat(document.getElementById('safety').value) || 0) / 100;
+            const safety_val = parseFloat(document.getElementById('safety').value) || 0;
+            const safety = safety_val / 100;
             const eff = (parseFloat(document.getElementById('eff').value) || 90) / 100;
             const pf_rect = parseFloat(document.getElementById('pf_rect').value) || 0.95;
+            const backup_hours = parseFloat(document.getElementById('backup_hours').value) || 0;
+            
+            const i_modul = parseFloat(document.getElementById('i_modul').value) || 0;
+            const qty_main = parseInt(document.getElementById('qty_main').value) || 1;
+            const qty_backup = parseInt(document.getElementById('qty_backup').value) || 0;
+            
+            const total_i_rect_main = i_modul * qty_main;
+            const total_i_rect_system = i_modul * (qty_main + qty_backup);
 
+            document.getElementById('lbl_res_hours').innerText = backup_hours;
+
+            // 1. Akumulasi Arus Beban DC
             let total_i_dc = 0;
-            const dcInputs = document.querySelectorAll('.dc-ampere');
-            dcInputs.forEach(input => { total_i_dc += parseFloat(input.value) || 0; });
+            document.querySelectorAll('.dc-ampere').forEach(input => { total_i_dc += parseFloat(input.value) || 0; });
             
             const total_p_dc_actual = total_i_dc * v_dc;
-            const total_p_dc_max = i_rect_max * v_dc;
+            const total_p_dc_max = total_i_rect_system * v_dc; 
 
             const va_ac_from_dc_actual = total_p_dc_actual / (eff * pf_rect);
             const va_ac_from_dc_max = total_p_dc_max / (eff * pf_rect);
 
+            // 2. Akumulasi Daya AC Non-Rectifier
             let total_va_ac_devices = 0;
-            const acRows = document.querySelectorAll('.row-ac');
-            acRows.forEach(row => {
+            document.querySelectorAll('.row-ac').forEach(row => {
                 const watt = parseFloat(row.querySelector('.ac-watt').value) || 0;
                 const pf = parseFloat(row.querySelector('.ac-pf').value) || 1.0;
                 total_va_ac_devices += (watt / (pf || 1));
             });
 
+            // 3. Gabungan Total Beban Akhir
             const final_ac_actual = (va_ac_from_dc_actual + total_va_ac_devices) * (1 + safety);
             const final_ac_max = (va_ac_from_dc_max + total_va_ac_devices) * (1 + safety);
 
-            document.getElementById('sum_i_dc').innerText = total_i_dc.toLocaleString('id-ID') + " A";
-            document.getElementById('sum_va_ac').innerText = Math.round(total_va_ac_devices).toLocaleString('id-ID') + " VA";
-            document.getElementById('res_ac_actual').innerText = Math.round(final_ac_actual).toLocaleString('id-ID') + " VA";
-            document.getElementById('res_ac_max').innerText = Math.round(final_ac_max).toLocaleString('id-ID') + " VA";
+            // 4. Perhitungan Kapasitas Baterai (DoD 80%)
+            const dod = 0.8; 
+            const required_ah = (total_i_dc * backup_hours) / dod;
+            const required_kwh = (required_ah * v_dc) / 1000;
 
+            // BARU: Hitung Kapasitas Baterai per Modul Rectifier Main
+            const battery_per_rect = required_ah / (qty_main || 1);
+
+            const qty_50ah = Math.ceil(required_ah / 50);
+            const qty_100ah = Math.ceil(required_ah / 100);
+
+            // Tampilkan Ke Ringkasan UI Web
+            document.getElementById('sum_i_dc').innerText = total_i_dc.toLocaleString('id-ID') + " A";
+            document.getElementById('sum_rect_main').innerText = total_i_rect_main.toLocaleString('id-ID') + " A";
+            document.getElementById('sum_rect_total').innerText = total_i_rect_system.toLocaleString('id-ID') + " A";
+            document.getElementById('res_ac_actual').innerText = Math.round(final_ac_actual).toLocaleString('id-ID') + " VA";
+            
+            document.getElementById('rec_battery').innerText = Math.round(required_ah).toLocaleString('id-ID') + " Ah";
+            document.getElementById('rec_battery_energy').innerText = required_kwh.toFixed(2) + " kWh @ " + v_dc + "V";
+            
+            // Injeksi Teks Parameter Baru
+            document.getElementById('rec_battery_per_rect').innerText = Math.round(battery_per_rect).toLocaleString('id-ID') + " Ah / Modul";
+            
+            document.getElementById('rec_qty_50ah').innerText = qty_50ah + " Unit";
+            document.getElementById('rec_qty_100ah').innerText = qty_100ah + " Unit";
+
+            // 5. Analisis PLN & Penampang Kabel
             let rekomendasi = plnCapacities[plnCapacities.length - 1];
             let isOverloadMaxPLN = final_ac_max > plnCapacities[plnCapacities.length - 1].va;
 
@@ -339,51 +491,123 @@
                 }
             }
 
+            let finalCableSize = rekomendasi.cable;
+            if (!isOverloadMaxPLN && dayaEksisting >= final_ac_max) {
+                const matchExisting = plnCapacities.find(item => item.va === dayaEksisting);
+                if (matchExisting) finalCableSize = matchExisting.cable;
+            }
+            document.getElementById('rec_cable').innerText = isOverloadMaxPLN ? "Custom TM" : finalCableSize + " mm²";
+
             const statusBox = document.getElementById('status_box');
             const statusTitle = document.getElementById('status_title');
             const recPlnText = document.getElementById('rec_pln');
             const recPhaseText = document.getElementById('rec_phase');
-            
-            const lblDiffStatus = document.getElementById('lbl_diff_status');
-            const lblDiffValue = document.getElementById('lbl_diff_value');
-
-            document.getElementById('lbl_existing').innerText = dayaEksisting.toLocaleString('id-ID') + " VA";
+            let txtStatus = "";
 
             if (isOverloadMaxPLN) {
                 statusBox.className = "p-4 rounded-xl text-center shadow-inner bg-red-600 text-white";
-                statusTitle.innerText = "OVERLOAD - BUTUH GARDU TM";
+                statusTitle.innerText = txtStatus = "OVERLOAD - BUTUH GARDU TM";
                 recPlnText.innerText = "> 242.000 VA";
-                recPhaseText.innerText = "Koneksi Jaringan: Tegangan Menengah (TM)";
-                
-                document.getElementById('lbl_recommended').innerText = "> 242.000 VA";
-                lblDiffStatus.innerText = "Kekurangan Daya:";
-                lblDiffValue.innerText = "Hubungi PLN Khusus";
-                lblDiffValue.className = "font-bold text-red-400";
-            } 
-            else if (dayaEksisting >= final_ac_max) {
+                recPhaseText.innerText = "Tegangan Menengah (TM)";
+            } else if (dayaEksisting >= final_ac_max) {
                 statusBox.className = "p-4 rounded-xl text-center shadow-inner bg-emerald-600 text-white";
-                statusTitle.innerText = "AMAN - DAYA EKSISTING CUKUP";
+                statusTitle.innerText = txtStatus = "AMAN - DAYA EKSISTING CUKUP";
                 recPlnText.innerText = dayaEksisting.toLocaleString('id-ID') + " VA";
-                
-                const currentPhase = plnCapacities.find(item => item.va === dayaEksisting)?.phase || "1/3 Phase";
-                recPhaseText.innerText = "Koneksi Jaringan: " + currentPhase;
-
-                document.getElementById('lbl_recommended').innerText = rekomendasi.va.toLocaleString('id-ID') + " VA";
-                lblDiffStatus.innerText = "Sisa Cadangan Daya:";
-                lblDiffValue.innerText = "+" + Math.round(dayaEksisting - final_ac_max).toLocaleString('id-ID') + " VA";
-                lblDiffValue.className = "font-bold text-emerald-400";
-            } 
-            else {
+                recPhaseText.innerText = "Koneksi: " + (plnCapacities.find(item => item.va === dayaEksisting)?.phase || "3 Phase");
+            } else {
                 statusBox.className = "p-4 rounded-xl text-center shadow-inner bg-amber-500 text-slate-900";
-                statusTitle.innerText = "PERLU UPGRADE KAPASITAS";
+                statusTitle.innerText = txtStatus = "PERLU UPGRADE KAPASITAS";
                 recPlnText.innerText = rekomendasi.va.toLocaleString('id-ID') + " VA";
-                recPhaseText.innerText = "Koneksi Jaringan: " + rekomendasi.phase;
-
-                document.getElementById('lbl_recommended').innerText = rekomendasi.va.toLocaleString('id-ID') + " VA";
-                lblDiffStatus.innerText = "Kekurangan ke Batas Aman:";
-                lblDiffValue.innerText = "-" + Math.round(final_ac_max - dayaEksisting).toLocaleString('id-ID') + " VA";
-                lblDiffValue.className = "font-bold text-amber-300";
+                recPhaseText.innerText = "Koneksi: " + rekomendasi.phase;
             }
+
+            // 6. SINKRONISASI DATA KE LAYAR CETAK PDF
+            document.getElementById('print_date').innerText = new Date().toLocaleDateString('id-ID');
+            document.getElementById('print_status_title').innerText = txtStatus;
+            document.getElementById('print_rec_pln').innerText = isOverloadMaxPLN ? "> 242.000 VA" : (dayaEksisting >= final_ac_max ? dayaEksisting.toLocaleString('id-ID') : rekomendasi.va.toLocaleString('id-ID')) + " VA";
+            document.getElementById('print_rec_phase').innerText = isOverloadMaxPLN ? "Tegangan Menengah" : (dayaEksisting >= final_ac_max ? (plnCapacities.find(item => item.va === dayaEksisting)?.phase || "") : rekomendasi.phase);
+            
+            document.getElementById('print_rec_battery').innerText = Math.round(required_ah).toLocaleString('id-ID') + " Ah";
+            document.getElementById('print_rec_battery_energy').innerText = required_kwh.toFixed(2) + " kWh";
+            
+            document.getElementById('print_p_existing').innerText = dayaEksisting.toLocaleString('id-ID') + " VA";
+            document.getElementById('print_p_vdc').innerText = v_dc + " V";
+            document.getElementById('print_rect_config').innerText = `${i_modul}A x (${qty_main} Main + ${qty_backup} Bckp)`;
+            document.getElementById('print_p_hours').innerText = backup_hours + " Jam";
+            document.getElementById('print_p_cable').innerText = isOverloadMaxPLN ? "Custom JTM" : finalCableSize + " mm²";
+            
+            document.getElementById('print_calc_idc').innerText = total_i_dc.toLocaleString('id-ID') + " A";
+            document.getElementById('print_calc_vac').innerText = Math.round(total_va_ac_devices).toLocaleString('id-ID') + " VA";
+            document.getElementById('print_calc_battery_final').innerText = Math.round(required_ah).toLocaleString('id-ID') + " Ah (" + required_kwh.toFixed(2) + " kWh)";
+            
+            // Injeksi Parameter Baru ke Layar PDF
+            document.getElementById('print_calc_battery_per_rect').innerText = Math.round(battery_per_rect).toLocaleString('id-ID') + " Ah per Modul Main";
+            
+            document.getElementById('print_qty_50ah').innerText = qty_50ah + " Unit Baterai";
+            document.getElementById('print_qty_100ah').innerText = qty_100ah + " Unit Baterai";
+        }
+
+        // FUNGSI EKSPOR EXCEL (.CSV)
+        function eksporExcel() {
+            let csvRows = [];
+            csvRows.push("LAPORAN STRUKTUR ENERGI RECTIFIER & ALOKASI BATERAI PER UNIT");
+            csvRows.push("Tanggal Analisis: " + new Date().toLocaleDateString('id-ID'));
+            csvRows.push("");
+
+            csvRows.push("1. PARAMETER UTAMA SISTEM");
+            csvRows.push("Parameter;Nilai");
+            csvRows.push("Daya Eksisting PLN;" + document.getElementById('daya_eksisting').value + " VA");
+            csvRows.push("Tegangan Jaringan DC;" + document.getElementById('v_dc').value + " V");
+            csvRows.push("Kapasitas Arus per Modul Rectifier;" + document.getElementById('i_modul').value + " A");
+            csvRows.push("Jumlah Unit Modul MAIN;" + document.getElementById('qty_main').value + " Unit");
+            csvRows.push("Jumlah Unit Modul BACKUP;" + document.getElementById('qty_backup').value + " Unit");
+            csvRows.push("Target Masa Cadangan Baterai;" + document.getElementById('backup_hours').value + " Jam");
+            csvRows.push("Faktor Safety Margin PLN;" + document.getElementById('safety').value + " %");
+            csvRows.push("");
+
+            csvRows.push("2. RINCIAN BEBAN ARUS DC");
+            csvRows.push("Nama Komponen Perangkat;Arus Beban Aktual");
+            document.querySelectorAll('.row-dc').forEach(row => {
+                const name = row.querySelector('.dc-name')?.value || "Perangkat DC";
+                const amp = row.querySelector('.dc-ampere')?.value || "0";
+                csvRows.push(`${name};${amp} A`);
+            });
+            csvRows.push("");
+
+            csvRows.push("3. RINCIAN BEBAN DAYA AC");
+            csvRows.push("Nama Komponen Perangkat;Daya Nyata (Watt);Power Factor");
+            document.querySelectorAll('.row-ac').forEach(row => {
+                const name = row.querySelector('.ac-name')?.value || "Perangkat AC";
+                const watt = row.querySelector('.ac-watt')?.value || "0";
+                const pf = row.querySelector('.ac-pf')?.value || "1.0";
+                csvRows.push(`${name};${watt} W;${pf}`);
+            });
+            csvRows.push("");
+
+            csvRows.push("4. EVALUASI DAN HASIL REKOMENDASI KAPASITAS");
+            csvRows.push("Item Analisis;Hasil Perhitungan");
+            csvRows.push("Total Kebutuhan Beban DC Perangkat;" + document.getElementById('sum_i_dc').innerText);
+            csvRows.push("Total Kapasitas Rectifier Aktif (Main);" + document.getElementById('sum_rect_main').innerText);
+            csvRows.push("Kebutuhan Total Daya AC Lapangan (+Margin);" + document.getElementById('res_ac_actual').innerText);
+            csvRows.push("Minimum Bank Kapasitas Baterai Total;" + document.getElementById('rec_battery').innerText);
+            csvRows.push("Kapasitas Baterai Cadangan Per Modul Rectifier (Main);" + document.getElementById('rec_battery_per_rect').innerText);
+            csvRows.push("Total Energi Baterai (kWh);" + document.getElementById('rec_battery_energy').innerText);
+            csvRows.push("Kebutuhan Kuantitas Fisik Varian 50Ah;" + document.getElementById('rec_qty_50ah').innerText);
+            csvRows.push("Kebutuhan Kuantitas Fisik Varian 100Ah;" + document.getElementById('rec_qty_100ah').innerText);
+            csvRows.push("Rekomendasi Upgrade KWH PLN Baru;" + document.getElementById('rec_pln').innerText);
+            csvRows.push("Spesifikasi Ukuran Kabel Utama (PUIL);" + document.getElementById('rec_cable').innerText);
+
+            const csvString = "\uFEFF" + csvRows.join("\n");
+            const blob = new Blob([csvString], { type: 'text/csv;charset=utf-8;' });
+            const link = document.createElement("a");
+            const url = URL.createObjectURL(blob);
+            
+            link.setAttribute("href", url);
+            link.setAttribute("download", "Laporan_Kalkulator_Daya_Baterai_Per_Rectifier_" + new Date().toISOString().slice(0,10) + ".csv");
+            link.style.visibility = 'hidden';
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
         }
 
         window.onload = function() {
