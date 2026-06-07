@@ -15,6 +15,5 @@ This calculation is to simplify the calculation for Power Upgrade and Backup Ana
 
 ### Bugs
 Please open an issue on GitHub with as much information as possible if you found a bug.
-* Your IOS-XE and Software Update
 * All the logs and message outputted
 * etc
