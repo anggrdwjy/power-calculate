@@ -5,7 +5,7 @@ This calculation is to simplify the calculation for Power Upgrade and Backup Ana
 ### Example Capture
 
 <p align="center">
-<img src="dashboard-powercalculate.png">
+<img src="dashboard-powercalculatee.png">
 </p>
 
 ### Contributing and Sponsors
