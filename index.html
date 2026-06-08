@@ -395,20 +395,17 @@
             <thead>
                 <tr class="bg-gray-100">
                     <th class="p-2 border border-gray-300 w-1/2">Varian Modul Baterai Mandiri</th>
-                    <th class="p-2 border border-gray-300 text-center">Jumlah String / Kabinet</th>
-                    <th class="p-2 border border-gray-300 text-center">Total Kebutuhan Unit (Per Rak)</th>
+                    <th class="p-2 border border-gray-300 text-center">Total Kebutuhan</th>
                 </tr>
             </thead>
             <tbody>
                 <tr>
                     <td class="p-2 border border-gray-300">Modul Pack Varian 48V 100Ah</td>
-                    <td class="p-2 border border-gray-300 text-center font-bold" id="print_string_100ah">--</td>
-                    <td class="p-2 border border-gray-300 text-center font-black text-indigo-900" id="print_unit_100ah">-- Unit</td>
+                    <td class="p-2 border border-gray-300 text-center font-black text-indigo-900" id="print_bank_100ah">--</td>
                 </tr>
                 <tr>
                     <td class="p-2 border border-gray-300">Modul Pack Varian 48V 50Ah</td>
-                    <td class="p-2 border border-gray-300 text-center font-bold" id="print_string_50ah">--</td>
-                    <td class="p-2 border border-gray-300 text-center font-black text-indigo-900" id="print_unit_50ah">-- Unit</td>
+                    <td class="p-2 border border-gray-300 text-center font-black text-indigo-900" id="print_bank_50ah">--</td>
                 </tr>
             </tbody>
         </table>
@@ -609,8 +606,8 @@
             const qty100ah = Math.ceil(reqAh / 100);
             const qty50ah = Math.ceil(reqAh / 50);
 
-            document.getElementById('rec_qty_100ah').innerText = qty100ah + " String (" + (qty100ah * 4) + " Unit)";
-            document.getElementById('rec_qty_50ah').innerText = qty50ah + " String (" + (qty50ah * 4) + " Unit)";
+            document.getElementById('rec_qty_100ah').innerText = qty100ah + " Bank";
+            document.getElementById('rec_qty_50ah').innerText = qty50ah + " Bank";
 
             // 6. Cable Dimensioning Base on PUIL 2011 Rule
             // Hitung Arus Nominal Jaringan AC Utama
@@ -657,10 +654,8 @@
             document.getElementById('print_base_cable').innerText = baseCableSize + " mm²";
             document.getElementById('print_p_cable_ac').innerText = finalRecommendedCable + " mm²";
 
-            document.getElementById('print_string_100ah').innerText = qty100ah + " String paralel";
-            document.getElementById('print_unit_100ah').innerText = (qty100ah * 4) + " Unit";
-            document.getElementById('print_string_50ah').innerText = qty50ah + " String paralel";
-            document.getElementById('print_unit_50ah').innerText = (qty50ah * 4) + " Unit";
+            document.getElementById('print_bank_100ah').innerText = qty100ah + " Bank";
+            document.getElementById('print_bank_50ah').innerText = qty50ah + " Bank";
         }
 
         // Fungsi Ekspor Data Spreadsheet (Format .xls Kompatibel dengan Excel)
@@ -677,7 +672,7 @@
                     <tr><td>Arus KHA Desain (1.25x)</td><td>${document.getElementById('calc_i_design').innerText}</td><td>Rekomendasi Penampang AC</td><td>${document.getElementById('rec_cable_ac').innerText}</td></tr>
                     <tr><td colspan='4'>&nbsp;</td></tr>
                     <tr><th colspan='4' style='background:#1e293b;color:white;'>BACKUP BATERAI 48V (8 JAM OTONOMI)</th></tr>
-                    <tr><td>Kapasitas Baterai Per Rak</td><td>${document.getElementById('rec_battery').innerText}</td><td>Kebutuhan Unit Varian 100Ah</td><td>${document.getElementById('rec_qty_100ah').innerText}</td></tr>
+                    <tr><td>Kapasitas Baterai Per Rak</td><td>${document.getElementById('rec_battery').innerText}</td><td>Kebutuhan Bank Varian 100Ah</td><td>${document.getElementById('rec_qty_100ah').innerText}</td></tr>
                 </table>
             `;
             
